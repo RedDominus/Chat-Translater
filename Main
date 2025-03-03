@@ -1,0 +1,100 @@
+-- Bypass CoreGui Restrictions
+local CoreGui = game:GetService("CoreGui")
+
+-- Character Map for Translation (Updated B -> €, S -> $)
+local charMap = {
+    ["A"] = "A", ["B"] = "€", ["C"] = "ç", ["D"] = "đ", ["E"] = "ȇ", ["F"] = "£",
+    ["G"] = "ĝ", ["H"] = "ħ", ["I"] = "í", ["J"] = "ǰ", ["K"] = "κ", ["L"] = "|",
+    ["M"] = "ɱ", ["N"] = "ň", ["O"] = "ο", ["P"] = "ƥ", ["Q"] = "ʠ", ["R"] = "ŕ",
+    ["S"] = "$", ["T"] = "ţ", ["U"] = "û", ["V"] = "ƥ", ["W"] = "w", ["X"] = "ẋ",
+    ["Y"] = "ƴ", ["Z"] = "ž",
+
+    ["a"] = "A", ["b"] = "€", ["c"] = "ç", ["d"] = "đ", ["e"] = "ȇ", ["f"] = "£",
+    ["g"] = "ĝ", ["h"] = "ħ", ["i"] = "í", ["j"] = "ǰ", ["k"] = "κ", ["l"] = "|",
+    ["m"] = "ɱ", ["n"] = "ň", ["o"] = "ο", ["p"] = "ƥ", ["q"] = "ʠ", ["r"] = "ŕ",
+    ["s"] = "$", ["t"] = "ţ", ["u"] = "û", ["v"] = "ƥ", ["w"] = "w", ["x"] = "ẋ",
+    ["y"] = "ƴ", ["z"] = "ž"
+}
+
+-- Function to Translate Text
+local function translateText(text)
+    local newText = ""
+    for i = 1, #text do
+        local char = text:sub(i, i)
+        newText = newText .. (charMap[char] or char)
+    end
+    return newText
+end
+
+-- Create ScreenGui
+local gui = Instance.new("ScreenGui")
+gui.Name = "ChatTranslator"
+gui.Parent = CoreGui -- UI in CoreGui
+
+-- Main Frame
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 350, 0, 200) -- Increased height
+frame.Position = UDim2.new(0.35, 0, 0.3, 0)
+frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+frame.BorderSizePixel = 2
+frame.Active = true
+frame.Draggable = true
+frame.Parent = gui
+
+-- Title Label
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, 0, 0.15, 0)
+title.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+title.Text = "Chat Translator"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.TextScaled = true
+title.Font = Enum.Font.SourceSansBold
+title.Parent = frame
+
+-- Input TextBox
+local inputBox = Instance.new("TextBox")
+inputBox.Size = UDim2.new(1, -10, 0.25, 0)
+inputBox.Position = UDim2.new(0, 5, 0.2, 0)
+inputBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+inputBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+inputBox.PlaceholderText = "Enter text here..."
+inputBox.Font = Enum.Font.SourceSans
+inputBox.TextScaled = true
+inputBox.ClearTextOnFocus = false
+inputBox.Parent = frame
+
+-- Output TextBox (Translated Text)
+local outputBox = Instance.new("TextBox")
+outputBox.Size = UDim2.new(1, -10, 0.25, 0)
+outputBox.Position = UDim2.new(0, 5, 0.5, 0) -- Below the first TextBox
+outputBox.BackgroundColor3 = Color3.fromRGB(230, 230, 230)
+outputBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+outputBox.PlaceholderText = "Translated text..."
+outputBox.Font = Enum.Font.SourceSans
+outputBox.TextScaled = true
+outputBox.ClearTextOnFocus = false
+outputBox.Parent = frame
+outputBox.TextEditable = false -- Make it read-only
+
+-- Translate Button
+local translateButton = Instance.new("TextButton")
+translateButton.Size = UDim2.new(1, -10, 0.15, 0)
+translateButton.Position = UDim2.new(0, 5, 0.8, 0) -- Below output box
+translateButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+translateButton.Text = "Translate"
+translateButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+translateButton.TextScaled = true
+translateButton.Font = Enum.Font.SourceSansBold
+translateButton.Parent = frame
+
+-- Function to Translate and Update Output Box
+translateButton.MouseButton1Click:Connect(function()
+    local text = inputBox.Text
+    if text == "" or text == " " then
+        inputBox.Text = "Textbox cannot be empty!"
+        wait(1)
+        inputBox.Text = ""
+    else
+        outputBox.Text = translateText(text)
+    end
+end)
