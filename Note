@@ -1,0 +1,39 @@
+-- Create ScreenGui
+local gui = Instance.new("ScreenGui")
+gui.Name = "NoteUI"
+gui.Parent = game:GetService("CoreGui") -- UI in CoreGui
+
+-- Main Frame (Black background)
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0.5, 0, 0.3, 0) -- Adjust size as needed
+frame.Position = UDim2.new(0.25, 0, 0.35, 0)
+frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Black background
+frame.Parent = gui
+
+-- TextLabel (Text message)
+local textLabel = Instance.new("TextLabel")
+textLabel.Size = UDim2.new(1, 0, 0.7, 0) -- Taking up most of the frame
+textLabel.Position = UDim2.new(0, 0, 0.15, 0) -- Positioned inside the frame
+textLabel.Text = "Note: \"your text hereeeeeeeeeeeeeeeeeeeeeeeeeeeee\""
+textLabel.TextColor3 = Color3.fromRGB(255, 255, 255) -- White text
+textLabel.TextScaled = true
+textLabel.TextWrapped = true
+textLabel.BackgroundTransparency = 1
+textLabel.Font = Enum.Font.SourceSans
+textLabel.Parent = frame
+
+-- Continue Button (Green button)
+local continueButton = Instance.new("TextButton")
+continueButton.Size = UDim2.new(0.4, 0, 0.2, 0) -- Button size
+continueButton.Position = UDim2.new(0.3, 0, 0.8, 0) -- Positioned near the bottom of the frame
+continueButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0) -- Green button
+continueButton.Text = "Continue"
+continueButton.TextColor3 = Color3.fromRGB(255, 255, 255) -- White text
+continueButton.TextScaled = true
+continueButton.Font = Enum.Font.SourceSansBold
+continueButton.Parent = frame
+
+-- Button Functionality (For example, close the UI when clicked)
+continueButton.MouseButton1Click:Connect(function()
+    gui:Destroy() -- Close the UI when clicked
+end)
